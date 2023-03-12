@@ -3,7 +3,8 @@ const express = require("express")
 const app = express()
 const MONGO_URI = process.env.MONGO_URI
 require("dotenv").config()
-const PORT = process.env.PORT || 5000
+// const PORT = process.env.PORT || 5000
+const PORT = 5000
 const connectDB = require("./config/connectDB")
 const { notFound, errorHandler } = require("./middleware/errorHandler")
 const authRouter = require("./routes/users.routes")
