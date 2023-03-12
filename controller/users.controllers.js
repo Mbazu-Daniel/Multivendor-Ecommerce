@@ -41,6 +41,32 @@ const loginUser = asyncHandler(
     }
 )
 
+// Get All Users
+
+const getAllUsers = asyncHandler(
+    async(req, res) => {
+   try {
+        const getUser = await User.find()
+        res.json(getUser)
+   } catch(error) {
+    throw new Error(error)
+   }
+})
+
+//   get Single user
+const getAUser = asyncHandler( 
+    async(req, res) => {
+        const {id} = req.params
+        try {
+            const user = await User.findById(id)
+            res.json({
+                user
+            })
+        } catch(error) {
+            throw new Error(error)
+        }
+    }
+)
 module.exports = {
     createUser
 };
