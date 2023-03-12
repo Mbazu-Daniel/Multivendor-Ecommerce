@@ -5,9 +5,8 @@ const { generateToken } = require("../config/jwtToken")
 const createUser = asyncHandler(
     async (req, res) => {
         const email = req.body.email
-        console.log("what am getting", email)
-        const findUser = await User.findOne({email: email})
-        if(!findUser) {
+        const findUserEmail = await User.findOne({email: email})
+        if(!findUserEmail) {
             // create a new user
     const newUser = await User.create(req.body)
     res.status(201).json(newUser)
@@ -18,6 +17,8 @@ const createUser = asyncHandler(
     }
     
 )
+
+
 
 // Login User
 const loginUser = asyncHandler(
@@ -40,6 +41,7 @@ const loginUser = asyncHandler(
         }
     }
 )
+
 
 // Get All Users
 
@@ -67,6 +69,41 @@ const getAUser = asyncHandler(
         }
     }
 )
+// Delete User
+const deleteUser = asyncHandler( 
+    async(req, res) => {
+        const {id} = req.params
+        try {
+            const user = await User.findByIdAndDelete(id)
+            res.status(204).json({
+               user
+            })
+        } catch(error) {
+            throw new Error(error)
+        }
+    }
+)
+// Update User
+const updateUser = asyncHandler( 
+    async(req, res) => {
+        const {id} = req.params
+        try {
+            const user = await User.findByIdAndUpdate(id, {
+                firstName: req?.body?.firstName,
+                lastName: req?.body?.lastName,
+                email: req?.body?.email,
+                mobile: req?.body?.mobile
+            }, {
+                new: true
+            })
+            res.status(201).json({
+                user
+            })
+        } catch(error) {
+            throw new Error(error)
+        }
+    }
+)
 module.exports = {
-    createUser
+    createUser, loginUser, getAllUsers, getAUser, deleteUser,updateUser
 };
